@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Env
+.env
+.env.*
+
+# Build output
+dist/
+build/
+*.js
+*.js.map
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Cache
+.cache/
+.tmp/
+coverage/
+
+# DB backups
+*.sql
+*.dump
+*.backup
+
+# Prisma (if used)
+node_modules/.prisma
+
+# Keys
+*.pem
+*.key
