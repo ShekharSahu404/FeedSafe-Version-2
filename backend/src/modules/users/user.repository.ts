@@ -2,12 +2,20 @@ import pool from "../../config/db";
 
 
 export const insertUser = async (username: string, email: string, password: string) => {
+
+  const freePanIdQuery = `SELECT id FROM plans WHERE code = 'free';`
+  const freePanId = await pool.query(freePanIdQuery);
+
+  console.log("freeplanId", freePanId.rows[0])
+
   const query = `
-  INSERT INTO users (name, email, password_hash)
-  VALUES ($1, $2, $3)
-  RETURNING id, email;
-`;
-  const result = await pool.query(query, [username, email, password])
+    INSERT INTO users (name, email, password_hash, plan_id)
+    VALUES ($1, $2, $3, $4)
+    RETURNING id, email;
+  `;
+  const result = await pool.query(query, [username, email, password, freePanId.rows[0].id])
+
+
   return result.rows[0];
 }
 

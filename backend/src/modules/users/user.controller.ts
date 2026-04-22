@@ -36,7 +36,6 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
 }
 
 export const getAllUser = async (req: Request, res: Response) => {
-    console.log("req user", req.user)
     let data = await getUsers();
 
     if (!data) {
