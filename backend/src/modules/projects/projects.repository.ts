@@ -17,3 +17,14 @@ export const createProjectRepo = async (userId: string, projectName: string, des
 
   return project;
 }
+
+export const getAllProjectRepo = async (userId: string) => {
+  const query = `
+    SELECT id, name,description, is_active,is_archived
+    FROM projects;
+  `;
+
+  const { rows } = await pool.query(query);
+
+  return rows;
+}
