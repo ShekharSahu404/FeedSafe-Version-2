@@ -6,20 +6,39 @@ export const insertUser = async (username: string, email: string, password: stri
   const freePanIdQuery = `SELECT id FROM plans WHERE code = 'free';`
   const freePanId = await pool.query(freePanIdQuery);
 
-  console.log("freeplanId", freePanId.rows[0])
+
 
   const query = `
-    INSERT INTO users (name, email, password_hash, plan_id)
-    VALUES ($1, $2, $3, $4)
+    INSERT INTO users (name, email, password_hash)
+    VALUES ($1, $2, $3)
     RETURNING id, email;
   `;
-  const result = await pool.query(query, [username, email, password, freePanId.rows[0].id])
+  const userData = await pool.query(query, [username, email, password])
 
+  const subscriptionQuery = `INSERT INTO subscriptions (
+    user_id,
+    plan_id,
+    status,
+    billing_interval,
+    price,
+    current_period_start,
+    current_period_end
+)
+VALUES (
+    $1,
+    (SELECT id FROM plans WHERE code = 'free' LIMIT 1),
+    'active',
+    'monthly',
+    0.00,
+    NOW(),
+    NOW() + INTERVAL '1 month'
+);`
 
-  return result.rows[0];
+  const subsData = await pool.query(subscriptionQuery, [userData.rows[0].id])
+  console.log("subscription data", subsData.rows[0])
+
+  return userData.rows[0];
 }
-
-
 
 export const isEmailExist = async (email: string) => {
   const query = `
