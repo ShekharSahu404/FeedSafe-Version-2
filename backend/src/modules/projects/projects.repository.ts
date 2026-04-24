@@ -21,10 +21,10 @@ export const createProjectRepo = async (userId: string, projectName: string, des
 export const getAllProjectRepo = async (userId: string) => {
   const query = `
     SELECT id, name,description, is_active,is_archived
-    FROM projects;
+    FROM projects Where user_id = $1;
   `;
 
-  const { rows } = await pool.query(query);
+  const { rows } = await pool.query(query, [userId]);
 
   return rows;
 }
