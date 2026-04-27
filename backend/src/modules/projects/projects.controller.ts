@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { createProjectService, getAllProjectService } from "./projects.service";
+import { createProjectService, deleteProjectService, getAllProjectService } from "./projects.service";
 
 
 
@@ -8,13 +8,22 @@ export const createProject = async (req: Request, res: Response) => {
     const { projectName, description } = req.body;
     const user = req.user;
 
-    console.log("user data", user)
     const project = await createProjectService(user.userId, projectName, description);
 
     res.status(201).json({
         success: true,
         message: "Project created successfully",
         data: project,
+    });
+}
+
+export const deleteProject = async (req: Request, res: Response) => {
+    const projectId : string | string[] = req.params.projectId;
+    const deleteProject = await deleteProjectService(projectId);
+
+    res.status(201).json({
+        success: true,
+        message: "Project deleted successfully",
     });
 }
 
