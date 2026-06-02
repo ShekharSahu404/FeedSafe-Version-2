@@ -10,6 +10,14 @@ export const createProject = async (req: Request, res: Response) => {
 
     const project = await createProjectService(user.userId, projectName, description);
 
+
+    if(!project.success){
+        res.status(400).json({
+            success: false,
+            message: project.message
+        })
+    }
+
     res.status(201).json({
         success: true,
         message: "Project created successfully",
@@ -18,10 +26,10 @@ export const createProject = async (req: Request, res: Response) => {
 }
 
 export const deleteProject = async (req: Request, res: Response) => {
-    const projectId : string | string[] = req.params.projectId;
+    const projectId: string | string[] = req.params.projectId;
     const deleteProject = await deleteProjectService(projectId);
 
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         message: "Project deleted successfully",
     });

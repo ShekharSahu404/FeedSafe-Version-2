@@ -8,7 +8,6 @@ export const createProjectRepo = async (userId: string, projectName: string, des
   VALUES ($1, $2, $3)
   RETURNING *;
 `;
-  console.log("createProjectRepo called")
   const values = [userId, projectName, description];
 
   const result = await pool.query(query, values);
