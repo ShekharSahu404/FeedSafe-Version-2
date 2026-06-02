@@ -8,9 +8,9 @@ import { validateCreateProjectInput } from "./project.validation";
 const router = Router();
 
 router.get("/getAll", authMiddleware, asyncHandler(getAllProject));
-router.get("/create", authMiddleware, validateCreateProjectInput, asyncHandler(createProject));
+router.post("/create", authMiddleware, validateCreateProjectInput, asyncHandler(createProject));
 // router.get("/update", authMiddleware, asyncHandler(getAllPlan));
-router.get("/delete/:projectId", authMiddleware, asyncHandler(deleteProject));
+router.delete("/delete/:projectId", authMiddleware, asyncHandler(deleteProject));
 // router.get("/:id", authMiddleware, asyncHandler(getAllPlan));
 
 export default router;
